@@ -133,7 +133,7 @@
                 },
                 "osProfile": {
                     "computerName": "[parameters('virtualMachines_vm01_name')]",
-                    "adminUsername": "robert",
+                    "adminUsername": "admin",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": false,
                         "provisionVMAgent": true
@@ -185,7 +185,7 @@
                 },
                 "osProfile": {
                     "computerName": "[parameters('virtualMachines_vm02_name')]",
-                    "adminUsername": "robert",
+                    "adminUsername": "admin",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": false,
                         "provisionVMAgent": true
