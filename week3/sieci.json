@@ -1,0 +1,70 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "vnetName": {
+        "type": "string",
+        "defaultValue": "vnetLab03",
+        "metadata": {
+          "description": "nazwa VNET"
+        }
+      },
+
+    "vnetAdres": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/16",
+      "metadata": {
+        "description": "klsasa adresowa"
+      }
+    },
+
+    "subnet1Name": {
+      "type": "string",
+      "defaultValue": "Subnet1lab03",
+      "metadata": {
+        "description": "nazwa subnet 1"
+      }
+    },
+
+    "subnet2Name": {
+      "type": "string",
+      "defaultValue": "Subnet2lab03",
+      "metadata": {
+        "description": "nazwa subnet 2"
+      }
+    },
+
+    "subnet1Address": {
+      "type": "string",
+      "defaultValue": "10.1.0.0/24",
+      "metadata": {
+        "description": "klsa  adresowa subnet 1"
+      }
+    },
+
+    "subnet2Address": {
+      "type": "string",
+      "defaultValue": "10.2.0.0/24",
+      "metadata": {
+        "description": "klsa  adresowa subnet 2"
+      }
+    },
+  
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Lokalizacja zasobow"
+      }
+    }
+  
+  }, //end parameters
+
+    "variables": {  },
+    "functions": [  ],
+    "resources": [
+    
+
+  ],
+    "outputs": {  }
+  }
