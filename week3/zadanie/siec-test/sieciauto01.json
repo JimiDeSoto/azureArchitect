@@ -1,0 +1,72 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "vnetName": {
+        "type": "string",
+        "defaultValue": "vnetLab03",
+        "metadata": {
+          "description": "nazwa VNET"
+        }
+      },
+    "vnetAddress": {
+      "type": "array",
+      "metadata": {
+        "description": "The AddressSpace that contains an array of IP address ranges that can be used by subnets."
+      }
+    },
+
+    "subnetConfig": {
+      "type": "array",
+      "metadata": {
+        "description": "Array of the subnets configuration."
+      }
+    },
+  
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Lokalizacja zasobow"
+      }
+    }
+  
+  }, 
+
+    "variables": {  
+    
+    "copy": [
+      {
+        "name": "subnetArray",
+        "count": "[length(parameters('subnetConfig'))]",
+        "input": {
+          "name": "[parameters('subnetConfig')[copyIndex('subnetArray')].name]",
+          "properties": {
+            "addressPrefix": "[parameters('subnetConfig')[copyIndex('subnetArray')].addressPrefix]"
+          }
+        }
+      }
+    ]
+    },
+
+    "functions": [  ],
+    
+    "resources": [
+   {
+      "name": "[parameters('vNetName')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2017-10-01",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": "[parameters('vnetAddress')]"
+        },
+        
+        "subnets": "[variables('subnetArray')]"
+      },
+      "resources": [
+      ]
+    }
+  ],
+    "outputs": {  }
+  }

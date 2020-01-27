@@ -1,0 +1,29 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "networkSecurityGroupName": {
+            "value": "nsgLab03"
+        },
+        "vnetName": {
+           "value": "vnetLab03"
+        },
+        "vnetAddress": {
+            "value": "10.0.0.0/16"
+        },
+        "adminUsername": {
+            "value": "adminek"
+        },
+        "adminPassword": {
+            "value": "Pa$$word12"
+        },
+        "ubuntuOSVersion": {
+            "value": "18.04-LTS"
+        },
+        "VmSize": {
+            "value": "B1ls"
+        }
+      
+
+    }
+}

@@ -1,0 +1,173 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+    "networkSecurityGroupName":{
+        "type": "string",
+        "metadata": {
+          "description": "nazwa NSG - w pliku"
+        }
+    },
+
+    "vnetName": {
+        "type": "string",
+        "metadata": {
+          "description": "nazwa VNET - w pliku"
+        }
+    },
+    "vnetAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "klasa adresowa - w pliku"
+      }
+    },
+
+    "subnet1Name": {
+      "type": "string",
+      "defaultValue": "Subnet1lab03",
+      "metadata": {
+        "description": "nazwa subnet 1"
+      }
+    },
+
+    "subnet1Address": {
+      "type": "string",
+      "defaultValue": "10.0.1.0/24",
+      "metadata": {
+        "description": "klasa  adresowa subnet 1"
+      }
+    },
+
+    "subnet2Name": {
+      "type": "string",
+      "defaultValue": "Subnet2lab03",
+      "metadata": {
+        "description": "nazwa subnet 2"
+      }
+    },
+
+    "subnet2Address": {
+      "type": "string",
+      "defaultValue": "10.0.2.0/24",
+      "metadata": {
+        "description": "klasa  adresowa subnet 2"
+      }
+    },
+  
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Lokalizacja zasobow"
+      }
+    },
+    
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+      "description": "user name VM"
+        }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+      "description": "Param w pliku Password"
+            }
+    },
+    "ubuntuOSVersion": {
+      "type": "string",
+      "metadata": {
+          "description": "Param w pliku wersja"
+           }
+    },
+    "VmSize": {
+      "type": "string"
+    }
+  
+  }, 
+
+    "variables": {  },
+    "functions": [  ],
+"resources": [
+        {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('networkSecurityGroupName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "allow_ssh",
+            "properties": {
+               "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "22",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 100,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2018-10-01",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[parameters('vnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetAddress')]"
+          ]
+        }
+      },
+      "resources": [
+        {
+      "apiVersion": "2018-10-01",
+      "type": "subnets",
+      "location": "[parameters('location')]",
+      "name": "[parameters('subnet1Name')]",
+      "dependsOn": [
+        "[parameters('vnetName')]",
+        "[parameters('networkSecurityGroupName')]"
+      ],
+      "properties": {
+        "addressPrefix": "[parameters('subnet1Address')]",
+        "networkSecurityGroup": {
+        "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+            }
+        
+        }
+      },
+      {
+      "apiVersion": "2018-10-01",
+      "type": "subnets",
+      "location": "[parameters('location')]",
+      "name": "[parameters('subnet2Name')]",
+      "dependsOn": [
+        "[parameters('vnetName')]",
+        "[parameters('subnet1Name')]",
+        "[parameters('networkSecurityGroupName')]"
+               
+      ],
+      "properties": {
+      "addressPrefix": "[parameters('subnet2Address')]",
+      "networkSecurityGroup": {
+        "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+          }
+      }
+      }
+    ]
+  }
+  
+  
+  ],
+    "outputs": {  }
+  }
