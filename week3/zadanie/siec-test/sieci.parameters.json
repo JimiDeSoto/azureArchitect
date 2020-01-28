@@ -28,8 +28,18 @@
         },
         "VmSize": {
             "value": "Standard_B1ls"
+        },
+        "keyVaultName": {
+            "value": "rk01-key-vault"
+          },
+          "objectId": {
+            "value": ""
+          },
+          "secretName": {
+            "value": "vmuser"
+          },
+          "secretValue": {
+            "value": "Q7FMFzCrPYx6nDAKUPaD"
+          }
         }
-      
-
-    }
 }

@@ -82,15 +82,49 @@
     },
     "VmSize": {
       "type": "string"
-    }
-  
+    },
+    
+      "keyVaultName": {
+        "type": "string",
+      },
+      "secretName": {
+        "type": "string",
+
+      },
+      "secretValue": {
+        "type": "securestring",
+
+      },
+             
+      "objectId": {
+        "type": "string",
+      }
+      
   }, 
 
     "variables": {  },
     "functions": [  ],
 "resources": [
     {
-        "name": "linkedNSG",
+      "name": "linkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2018-05-01",
+      "properties": {
+      "mode": "Incremental",
+      "templateLink": {
+          "uri":""
+      },
+      "parameters": {
+          "keyVaultName":{"value": "[parameters('keyVaultName')]"},
+          "secretName":{"value": "[parameters('secretName')]"},
+          "secretValue":{"value": "[parameters('secretValue')]"},
+          "objectId":{"value": "[parameters('objectId')]"},
+          "location":{"value": "[parameters('location')]"}
+        }
+      }
+    },
+    {
+        "name": "NSG",
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2018-05-01",
         "properties": {
