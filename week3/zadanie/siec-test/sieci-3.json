@@ -350,6 +350,7 @@
                     "storageAccountType": "[variables('osDiskType')]"
                 }
             },
+            
             "imageReference": {
                 "publisher": "Canonical",
                 "offer": "UbuntuServer",
