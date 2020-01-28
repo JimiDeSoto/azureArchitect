@@ -1,0 +1,38 @@
+{
+    "apiVersion": "2017-09-01",
+    "type": "Microsoft.Network/virtualNetworks",
+    "name": "[parameters('vnetName')]",
+    "location": "[parameters('location')]",
+    "dependsOn": [
+      "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+    ],
+    "properties": {
+      "addressSpace": {
+        "addressPrefixes": [
+          "[parameters('vnetAddressPrefix')]"
+        ]
+      },
+      "subnets": [
+        {
+          "name": "subnet1",
+          "properties": {
+            "addressPrefix": "[parameters('subnet1Prefix')]",
+            "serviceEndpoints": [
+              {
+                "service": "Microsoft.Storage"
+              }
+            ],
+            "networkSecurityGroup": {
+              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+            }
+          }
+        },
+        {
+          "name": "subnet2",
+          "properties": {
+            "addressPrefix": "[parameters('subnet2Prefix')]"
+          }
+        }
+      ]
+    }
+  }

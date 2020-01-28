@@ -11,6 +11,12 @@
         "vnetAddress": {
             "value": "10.0.0.0/16"
         },
+        "vmName1":{
+            "value": "vm01"
+        },
+        "vmName2":{
+            "value": "vm02"
+        },
         "adminUsername": {
             "value": "adminek"
         },
@@ -21,7 +27,7 @@
             "value": "18.04-LTS"
         },
         "VmSize": {
-            "value": "B1ls"
+            "value": "Standard_B1ls"
         }
       
 
