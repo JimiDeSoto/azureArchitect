@@ -1,38 +1,62 @@
-{
-    "apiVersion": "2017-09-01",
-    "type": "Microsoft.Network/virtualNetworks",
-    "name": "[parameters('vnetName')]",
-    "location": "[parameters('location')]",
-    "dependsOn": [
-      "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
-    ],
-    "properties": {
-      "addressSpace": {
-        "addressPrefixes": [
-          "[parameters('vnetAddressPrefix')]"
-        ]
+      "keyVaultName": {
+        "type": "string"
       },
-      "subnets": [
-        {
-          "name": "subnet1",
-          "properties": {
-            "addressPrefix": "[parameters('subnet1Prefix')]",
-            "serviceEndpoints": [
-              {
-                "service": "Microsoft.Storage"
-              }
-            ],
-            "networkSecurityGroup": {
-              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+      "secretName": {
+        "type": "string"
+
+      },
+      "secretValue": {
+        "type": "securestring"
+
+      },
+             
+      "objectId": {
+        "type": "string"
+      },
+      "vaultResourceGroupName": {
+        "type": "string",
+          "defaultValue": "scAzureArch",
+        "metadata": {
+          "description": "The name of the resource group that contains the keyvault."
+        }
+      },
+      "vaultSubscription": {
+        "type": "string",
+        "defaultValue": "[subscription().subscriptionId]",
+        "metadata": {
+          "description": "The name of the subscription that contains the keyvault."
+        }
+      }
+
+
+
+
+
+
+       {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('networkSecurityGroupName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "allow_ssh",
+            "properties": {
+               "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "22",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 100,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
             }
           }
-        },
-        {
-          "name": "subnet2",
-          "properties": {
-            "addressPrefix": "[parameters('subnet2Prefix')]"
-          }
-        }
-      ]
-    }
-  }
+        ]
+      }
+    },

@@ -17,18 +17,30 @@
         "vmName2":{
             "value": "vm02"
         },
+   
         "adminUsername": {
-            "value": "adminek"
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/<sub_id>/resourceGroups/scAzureArch/providers/Microsoft.KeyVault/vaults/rk01-key-vault"
+                },
+                "secretName": "vmusername"
+              }
         },
         "adminPassword": {
-            "value": "Pa$$word12"
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/<sub_id>/resourceGroups/scAzureArch/providers/Microsoft.KeyVault/vaults/rk01-key-vault"
+                },
+                "secretName": "vmuserpassword"
+              }
         },
+    
         "ubuntuOSVersion": {
             "value": "18.04-LTS"
         },
         "VmSize": {
             "value": "Standard_B1ls"
         }
-      
+         
      }
 }

@@ -100,25 +100,9 @@
     },
     "VmSize": {
       "type": "string"
-    },
+    }
 
-    
-      "keyVaultName": {
-        "type": "string"
-      },
-      "secretName": {
-        "type": "string"
-
-      },
-      "secretValue": {
-        "type": "securestring"
-
-      },
-             
-      "objectId": {
-        "type": "string"
-      }
-  
+     
   }, 
 
     "variables": {
@@ -147,57 +131,29 @@
     "functions": [  ],
 "resources": [
       {
-      "name": "linkedKeyVault",
+      "name": "linkedNSG",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2018-05-01",
       "properties": {
       "mode": "Incremental",
       "templateLink": {
-          "uri":"https://armstorerk01.blob.core.windows.net/arm-template/linked-keyvault.json?se=2020-01-29T08%3A15Z&sp=r&sv=2018-11-09&sr=c&sig=AfdmWPAxMGPsIIlcKPKZfu/V9awH/Un3UHoANWZO3qQ%3D"
+          "uri":"https://armstorerk01.blob.core.windows.net/arm-template/linked-nsg.json?se=2020-01-29T11%3A56Z&sp=r&sv=2018-11-09&sr=c&sig=ppl4WwKM/Kgz64wofKJopVgLnh8t0r1VndTYbOfZs68%3D"
       },
       "parameters": {
-          "keyVaultName":{"value": "[parameters('keyVaultName')]"},
-          "secretName":{"value": "[parameters('secretName')]"},
-          "secretValue":{"value": "[parameters('secretValue')]"},
-          "objectId":{"value": "[parameters('objectId')]"},
+          "networkSecurityGroupName":{"value": "[parameters('networkSecurityGroupName')]"},
           "location":{"value": "[parameters('location')]"}
         }
       }
     },
-        {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[parameters('networkSecurityGroupName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "securityRules": [
-          {
-            "name": "allow_ssh",
-            "properties": {
-               "protocol": "TCP",
-                "sourcePortRange": "*",
-                "destinationPortRange": "22",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 100,
-                "direction": "Inbound",
-                "sourcePortRanges": [],
-                "destinationPortRanges": [],
-                "sourceAddressPrefixes": [],
-                "destinationAddressPrefixes": []
-            }
-          }
-        ]
-      }
-    },
+       
 {
     "apiVersion": "2017-09-01",
     "type": "Microsoft.Network/virtualNetworks",
     "name": "[parameters('vnetName')]",
     "location": "[parameters('location')]",
     "dependsOn": [
-      "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+     
+      "linkedNSG"
     ],
     "properties": {
       "addressSpace": {
@@ -233,9 +189,10 @@
     "name": "[variables('networkInterfaceName1')]",
     "location": "[parameters('location')]",
     "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]",
+        
         "[resourceId('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
-        "[resourceId('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName1'))]"
+        "[resourceId('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName1'))]",
+        "linkedNSG"
     ],
       "properties": {
           "ipConfigurations": [
@@ -263,9 +220,10 @@
     "name": "[variables('networkInterfaceName2')]",
     "location": "[parameters('location')]",
     "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]",
+      
         "[resourceId('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
-        "[resourceId('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName2'))]"
+        "[resourceId('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName2'))]",
+        "linkedNSG"
     ],
       "properties": {
           "ipConfigurations": [
@@ -330,7 +288,7 @@
     "location": "[parameters('location')]",
     "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName1'))]",
-        "linkedKeyVault"
+        "linkedNSG"
     ],
     "properties": {
         "hardwareProfile": {
@@ -374,7 +332,7 @@
     "location": "[parameters('location')]",
     "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName2'))]",
-        "linkedKeyVault"
+        "linkedNSG"
     ],
     "properties": {
         "hardwareProfile": {
